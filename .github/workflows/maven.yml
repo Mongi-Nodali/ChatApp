@@ -1,0 +1,28 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    
+    - name: Download JSON library
+      run: |
+        mkdir -p lib
+        wget -O lib/json.jar https://repo1.maven.org/maven2/org/json/json/20210307/json-20210307.jar
+    
+    - name: Compile ChatApp
+      run: javac -cp "lib/*" src/ChatApp.java
