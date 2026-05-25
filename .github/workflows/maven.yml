@@ -15,14 +15,8 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
     
-    - name: Download JSON library
-      run: wget -O json.jar https://repo1.maven.org/maven2/org/json/json/20210307/json-20210307.jar
+    - name: Compile with Maven
+      run: mvn compile
     
-    - name: List Java files
-      run: find src -name "*.java"
-    
-    - name: Compile
-      run: javac -cp "json.jar" src/*.java
-    
-    - name: Run
-      run: java -cp "src:json.jar" ChatApp
+    - name: Run tests
+      run: mvn test
