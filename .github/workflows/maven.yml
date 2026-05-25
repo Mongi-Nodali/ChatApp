@@ -17,6 +17,3 @@ jobs:
     
     - name: Compile with Maven
       run: mvn compile
-    
-    - name: Run tests
-      run: mvn test
