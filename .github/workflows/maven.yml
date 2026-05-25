@@ -15,16 +15,14 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
     
-    - name: Setup JSON library
-      run: |
-        wget -O json.jar https://repo1.maven.org/maven2/org/json/json/20210307/json-20210307.jar
-        mkdir -p lib
-        mv json.jar lib/
+    - name: Download JSON library
+      run: wget -O json.jar https://repo1.maven.org/maven2/org/json/json/20210307/json-20210307.jar
     
-    - name: Find and Compile Java files
-      run: |
-        find . -name "*.java" > sources.txt
-        javac -cp "lib/*" @sources.txt
+    - name: List Java files
+      run: find src -name "*.java"
     
-    - name: Run tests (optional)
-      run: java -cp ".:lib/*" ChatApp
+    - name: Compile
+      run: javac -cp "json.jar" src/*.java
+    
+    - name: Run
+      run: java -cp "src:json.jar" ChatApp
