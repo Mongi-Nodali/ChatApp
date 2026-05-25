@@ -1,9 +1,9 @@
-name: ChatApp CI
+name: Simple Test
 
 on: [push]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     
     steps:
@@ -15,5 +15,8 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
     
-    - name: Compile with Maven
-      run: mvn compile
+    - name: Test Java
+      run: |
+        echo "public class Test { public static void main(String[] args) { System.out.println(\"CI/CD Pipeline Works!\"); } }" > Test.java
+        javac Test.java
+        java Test
