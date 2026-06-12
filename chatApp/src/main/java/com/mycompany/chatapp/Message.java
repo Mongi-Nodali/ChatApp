@@ -43,7 +43,7 @@ public class Message {
      if (matcher.matches()) {
          return "Cell phone number successfully captured";
      } else {
-     return "Cell phone number is incorrectly formatted or does not contain an internation code. Please correct the number and try again";
+     return "Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again";
      }
     }
     //Method 3: Creates and returns Message Hash
@@ -54,7 +54,7 @@ public class Message {
         String lastWord = words[words.length - 1];
         return(firstTwo + ":" + messageCount + ":" + firstWord + lastWord).toUpperCase();
         
-    } 
+    }
      //Method 4: Allows user to choose send, store or disregard message
     public String sentMessage(int choice) {
         if (choice == 1) {
@@ -89,7 +89,7 @@ public class Message {
                       
                       //reads existing messages if file already exists
                       try {
-                          String existingContent = new String(Files.readAllBytes(Paths.get("messages.json")));
+                          String existingContent = new String(Files.readAllBytes(Paths.get("messages.txt")));
                           messageArray = new JSONArray(existingContent);
                       }catch (IOException e) {
                           // if file doesn't exist it will create a new one
@@ -106,7 +106,7 @@ public class Message {
                       messageArray.put(messageObj);
                       
                       //saves to file
-                      try (FileWriter file =new FileWriter("messages.json")) {
+                      try (FileWriter file =new FileWriter("messages.txt")) {
                           file.write(messageArray.toString(4));
                           System.out.println("Message saved to JSON file");
                       }catch (IOException e) {

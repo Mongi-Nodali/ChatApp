@@ -4,29 +4,19 @@
  */
 package com.mycompany.chatapp;
 
-
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- *
- * @author mongi
- */
 public class MessageTest {
     
     private Message message;
-    
-    /**
-     *
-     */
+
     @BeforeEach
     public void setUp() {
         message = new Message();
-        
     }
-    // test 1: check message length
+
     @Test
     public void testMessageLengthSuccess() {
         String shortMessage = "Hi Mike, can you join us for dinner tonight?";
@@ -37,57 +27,44 @@ public class MessageTest {
     @Test
     public void testMessageLengthFaliure() {
         String longMessage = "Hi, I just wanted to chexck in and see how you everything has been going on your side. Nothing hectic has been going on, on my side just school and assignments. i feel like i have been neglecting you a bit because of that and i would like to apologize. Can we grab dinner sometime just to properly catch-up, there is a lot i have to tell you. ";
-         
         int excess = longMessage.length() - 250;
-        
-         if (longMessage.length() <= 250) {
-             System.out.println("Message ready to send");
-             
-         } else {
-             System.out.println("Message exceeds 250 characters by " + excess + "; please reduce the size");
-             
-         }
-            assertEquals(93, excess);
-        
+        if (longMessage.length() <= 250) {
+            System.out.println("Message ready to send");
+        } else {
+            System.out.println("Message exceeds 250 characters by " + excess + "; please reduce the size");
+        }
+        assertEquals(93, excess);
     }
     
-//Test 2: Recipient cell number format
     @Test
     public void testRecipientCellFailure() {
         String invalidCell = "08575975889";
         String result = message.checkRecipientCell(invalidCell);
-        assertEquals("Cell phone number is incorrectly formatted or does not contain an internation code. Please correct the number and try again", result);
+        assertEquals("Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again", result);
     }
-    //Test 3: Message Hash
+
     @Test
     public void testMessageHash() {
-      //  long messageId = 1000000000L;
         int messageCount = 0;
         String content = "Hi mike, can you join us for dinner tonight?";
         long testId = 123456789L;
         String firstTwo = String.valueOf(testId).substring(0,2);
-        
         String hash = message.createMessageHash(testId, messageCount, content);
-        
         String[] words = content.split(" ");
-        String firstWord =words[0].toUpperCase();
+        String firstWord = words[0].toUpperCase();
         String lastWord = words[words.length - 1].toUpperCase();
         String expectedHash = firstTwo + ":0:" + firstWord + lastWord;
-        
         assertEquals(expectedHash, hash);
-        
     }
-    //Test 4: message ID
-        @Test
-        public void testMessageId() {
-            long messageId = 1000000000L + (long)(Math.random() * 9000000000L);
-            String idString = String.valueOf(messageId);
-            
-            assertTrue(idString.length() == 10, "Message Id should be 10 digits");
-            System.out.println("Message ID generated:" + messageId);
+
+    @Test
+    public void testMessageId() {
+        long messageId = 1000000000L + (long)(Math.random() * 9000000000L);
+        String idString = String.valueOf(messageId);
+        assertTrue(idString.length() == 10, "Message Id should be 10 digits");
+        System.out.println("Message ID generated:" + messageId);
     }
-     //test 5: message sent options
-         
+
     @Test
     public void testSendMessageOption() {
         String result = message.sentMessage(1);
@@ -105,20 +82,15 @@ public class MessageTest {
         String result = message.sentMessage(3);
         assertEquals("Message successfully stored.", result);
     }
-    
-    // ========== TEST 6: MESSAGE ID NOT MORE THAN 10 CHARACTERS ==========
-    
+
     @Test
     public void testMessageIdNotMoreThanTenCharacters() {
-        long validId = 1234567890L;      // 10 digits
-        long invalidId = 12345678901L;   // 11 digits
-        
+        long validId = 1234567890L;
+        long invalidId = 12345678901L;
         assertTrue(message.checkMessageID(validId));
         assertFalse(message.checkMessageID(invalidId));
     }
-    
-    // ========== TEST 7: MESSAGE HASH LOOP TEST (multiple messages) ==========
-    
+
     @Test
     public void testMultipleMessageHashes() {
         String[] testMessages = {
@@ -127,7 +99,6 @@ public class MessageTest {
             "Hello world",
             "Good morning everyone"
         };
-        
         for (int i = 0; i < testMessages.length; i++) {
             long messageId = 1000000000L + (long)(Math.random() * 9000000000L);
             String firstTwo = String.valueOf(messageId).substring(0, 2);
@@ -136,9 +107,8 @@ public class MessageTest {
             String lastWord = words[words.length - 1];
             String expectedHash = (firstTwo + ":" + i + ":" + firstWord + lastWord).toUpperCase();
             String actualHash = message.createMessageHash(messageId, i, testMessages[i]);
-            
             assertEquals(expectedHash, actualHash);
             System.out.println("Message " + (i+1) + " Hash: " + actualHash);
-}
+        }
     }
 }
